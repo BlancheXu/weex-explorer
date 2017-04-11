@@ -2,7 +2,8 @@ import App from '../app';
 
 export default {
   props: [
-    'productList'
+    'productList',
+    'type'
   ],
   data() {
     return {
@@ -16,7 +17,7 @@ export default {
   methods: {
     formatCmsList() {
       const self = this;
-      console.log(self.productList.length)
+
       for(let i=0; i<self.productList.length; i+=2) {
         let end;
         if(i == self.productList.length - 1) {
@@ -28,8 +29,8 @@ export default {
       }
     },
 
-    product(id) {
-      App.product(id);
+    product(id, type) {
+      App.product(id, type);
     },
   }
 }

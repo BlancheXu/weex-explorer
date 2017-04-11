@@ -1,5 +1,5 @@
 .container
-	.pro-area(v-for="item in productList", @click="product(item.product_id)")
+	.pro-area(v-for="(item, index) in cmsList", @click="product(item.product_id, type ? type[index] : 'product')")
 		image.pro-img(:src="item && item.image")
 		text.pro-info {{item.name}}
 		text.pro-price ￥{{item.price}}

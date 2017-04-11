@@ -2,7 +2,8 @@ import App from '../app';
 
 export default {
   props: [
-    'productList'
+    'productList',
+    'type'
   ],
   data() {
     return {
@@ -11,13 +12,13 @@ export default {
   },
   mounted() {
     const self = this;
-    self.cmsList = self.productList;
+    self.cmsList.push(self.productList[0]);
     console.log(self.cmsList)
   },
   methods: {
 
-    product(id) {
-      App.product(id);
+    product(id, type) {
+      App.product(id, type);
     },
   }
 }
