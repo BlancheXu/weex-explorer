@@ -10,6 +10,7 @@
 
 var path = require('path')
 var webpack = require('webpack')
+// var webpackDevMiddleware = require("webpack-dev-middleware")
 
 //var bannerPlugin = new webpack.BannerPlugin(
   //'// { "framework": "Vue" }\n',
@@ -26,6 +27,8 @@ function getBaseConfig () {
     output: {
       path: path.join(__dirname, 'dist'),
     },
+    // devtool: 'source-map',
+    
     module: {
       // // You can use ESLint now!
       // // Please:
@@ -62,7 +65,12 @@ function getBaseConfig () {
           test: /\.vue(\?[^?]+)?$/,
           loaders: []
         }
-      ]
+      ],
+      // plugins: [
+          // new webpack.optimize.OccurenceOrderPlugin(),
+          // new webpack.HotModuleReplacementPlugin(),
+          // new webpack.NoErrorsPlugin()
+      // ]
     },
     //vue: {
       // // You can use PostCSS now!
