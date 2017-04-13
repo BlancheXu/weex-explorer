@@ -1,0 +1,7 @@
+.share-area
+	a.share-box(v-if="isApp", @click="shareWx(wx)")
+		image.share-img(src="https://s1.mi.com/m/ghd/2017/D0106_component/static/weixin.png")
+	a.share-box(@click="shareWb(wb)")
+		image.share-img(src="https://s1.mi.com/m/ghd/2017/D0106_component/static/weibo.png")
+	a.share-box(v-if="isApp", @click="sharePyq(pyq)")
+		image.share-img(src="https://s1.mi.com/m/ghd/2017/D0106_component/static/pyq.jpg")

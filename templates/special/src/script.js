@@ -41,7 +41,7 @@ export default {
   methods: {
     getCmsList(cbk) {
       const self = this;
-      Fetch.get('//cdn.cnbj0.fds.api.mi-img.com/b2c-webfile/cms/js/promotionp_mi6pre0410.js?callback=jsonp_1&needValidHost=false', (res) => {
+      Fetch.get('//s1.mi.com/m/ghd/2017/xgs02010/award_list.js?callback=jsonp_1&needValidHost=false', (res) => {
         self.cmsData = res.data;
         if(self.cmsData) {
         	cbk();

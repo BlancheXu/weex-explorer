@@ -1,5 +1,5 @@
 .DS_Store
-node_modules/
+!node_modules/
 bower_components/
 **/dist/*
 **/uploads/*
@@ -7,7 +7,7 @@ bower_components/
 *.swo
 *.swn
 .idea
-npm-debug.log
+npm-debug*
 yarn-error.log
 .nvmrc
 .vscode

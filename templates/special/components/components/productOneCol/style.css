@@ -1,0 +1,5 @@
+.container { align-items: center; }
+.cms-product-area { padding-bottom: 50px; }
+.pro-area { flex: 1; height: 530px;}
+.pro-img { width: 750px; height: 303px; }
+.pro-info, .pro-price { width: 750px; font-size: 24px; text-align: center; padding-top: 34px; }
