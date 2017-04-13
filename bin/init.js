@@ -13,9 +13,9 @@ let spinner = null;
 
 const copyDirArr = [
   'assets',
-  'build',
-  'customized_modules',
-  'components'
+  // 'build',
+  // 'customized_modules',
+  // 'components'
   // ,
   // 'node_modules'
 ];
@@ -92,11 +92,11 @@ const dirPromise = new Promise((resolve, reject) => {
 
   copyDirArr.forEach((item, index) => {
     folders.forEach((val, key) => {
-      // try {
-      //   shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
-      // } catch(err) {
-      //     console.log(err);
-      // }
+      try {
+        shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
+      } catch(err) {
+          console.log(err);
+      }
       
       try {
         shell.exec(`cp -r ${path.resolve(ROOT, item)} ${path.resolve(DESTROOT, val, item)}`, {slient: true}, (code) => {
@@ -125,7 +125,7 @@ const filePromise = new Promise((resolve, reject) => {
         } else {
             // 判断是文件还是目录
             if (stat.isFile()) {
-              // shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
+              shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
               shell.exec('cp ' + item + ' ' + DESTROOT + val  + '/' + item, {silent: true}, (code, stdout, stderr) => {
                 // console.log(key)
                 if(code != 0) {
