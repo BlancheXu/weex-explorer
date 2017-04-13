@@ -13,11 +13,11 @@ let spinner = null;
 
 const copyDirArr = [
   'assets',
-  // 'build',
-  // 'customized_modules',
-  // 'components'
-  // ,
-  // 'node_modules'
+  'build',
+  'customized_modules',
+  'components'
+  ,
+  'node_modules'
 ];
 
 const copyFileArr = [
