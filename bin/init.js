@@ -16,8 +16,8 @@ const copyDirArr = [
   'build',
   'customized_modules',
   'components'
-  ,
-  'node_modules'
+  // ,
+  // 'node_modules'
 ];
 
 const copyFileArr = [
