@@ -29,7 +29,6 @@ const copyFileArr = [
   'weex.html'
 ];
 
-// 筛选出所有公用的文件夹
 const filterTmpFolder = (folders) => {
   const reg = /^\./;
   let tmpFolders = [];
@@ -133,13 +132,46 @@ const filePromise = new Promise((resolve, reject) => {
                   reject(`复制文件失败`);
                 } else if( index == (copyFileArr.length - 1)) {
                     resolve();
-                }
-              });
-            }
+              }
+            })
+          })
         }
       })
+    }
+  }
+}
+
+const folders = filterTmpFolder(fs.readdirSync('./templates'));
+
+copyDirArr.forEach((item, index) => {
+  folders.forEach((val, key) => {
+    copyDir(ROOT + '/' + item, DESTROOT + val + '/' + item, (err) => {
+      if (err) {
+          console.log(err);
+        }
     })
   })
+  
+});
+
+copyFileArr.forEach((item, index) => {
+  folders.forEach((val, key) => {
+    fs.stat(item, (err, stat) => {
+      if (err) {
+        callback(err);
+      } else {
+          // 判断是文件还是目录
+          if (stat.isFile()) {
+            shell.exec('cp ' + item + ' ' + DESTROOT + val  + '/' + item, {silent: true}, (code, stdout, stderr) => {
+              if(code != 0) {
+                console.log(stderr);
+              }
+            });
+          }
+      }
+    })
+  })
+  
 })
 
 
