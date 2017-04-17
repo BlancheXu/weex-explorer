@@ -16,8 +16,8 @@ const copyDirArr = [
   'build',
   'customized_modules',
   'components'
-  // ,
-  // 'node_modules'
+  ,
+  'node_modules'
 ];
 
 const copyFileArr = [
@@ -45,75 +45,88 @@ const filterTmpFolder = (folders) => {
  * @param src {String} 要复制的目录
  * @param dist {String} 复制到目标目录
  */
-// const copyDir = (src, dist, callback) => {
-//   fs.access(dist, (err) => {
-//     if (err) {
-//       // 目录不存在时创建目录
-//       fs.mkdirSync(dist);
-//     }
-//     _copy(null, src, dist);
-//   });
+const copyDir = (src, dist, callback, successCbk) => {
+  fs.access(dist, (err) => {
+    if (err) {
+      // 目录不存在时创建目录
+      fs.mkdirSync(dist);
+    }
+    _copy(null, src, dist);
+  });
 
-//   const _copy = (err, src, dist) => {
-//     if (err) {
-//       callback(err);
-//     } else {
-//       fs.readdir(src, (err, paths) => {
-//         if (err) {
-//           callback(err)
-//         } else {
-//           paths.forEach((path) => {
-//             const _src = src + '/' + path;
-//             const _dist = dist + '/' + path;
-//             fs.stat(_src, (err, stat) => {
-//               if (err) {
-//                 callback(err);
-//               } else {
-//                 // 判断是文件还是目录
-//                 if (stat.isFile()) {
-//                   fs.writeFileSync(_dist, fs.readFileSync(_src));
-//                 } else if (stat.isDirectory()) {
-//                   // 当是目录是，递归复制
-//                   copyDir(_src, _dist, callback)
-//                 }
-//               }
-//             })
-//           })
-//         }
-//       })
-//     }
-//   }
-// }
+  const _copy = (err, src, dist) => {
+    if (err) {
+      callback(err);
+    } else {
+      fs.readdir(src, (err, paths) => {
+        if (err) {
+          callback(err)
+        } else {
+          paths.forEach((path) => {
+            const _src = src + '/' + path;
+            const _dist = dist + '/' + path;
+            fs.stat(_src, (err, stat) => {
+              if (err) {
+                callback(err);
+              } else {
+                // 判断是文件还是目录
+                if (stat.isFile()) {
+                  fs.writeFileSync(_dist, fs.readFileSync(_src));
+                } else if (stat.isDirectory()) {
+                  // 当是目录是，递归复制
+                  copyDir(_src, _dist, callback)
+                }
+              }
+            })
+          })
+        }
+      })
+    }
+  }
+}
 
 const folders = filterTmpFolder(fs.readdirSync('./templates'));
 
+spinner = ora(``).start();
 
+setTimeout(() => {
+  spinner.color = 'yellow';
+  spinner.text = `正在复制文件, 请稍后...`;
+}, 1000);
 const dirPromise = new Promise((resolve, reject) => {
 
   copyDirArr.forEach((item, index) => {
     folders.forEach((val, key) => {
-      try {
-        shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
-      } catch(err) {
-          console.log(err);
-      }
+      copyDir(`${path.resolve(ROOT, item)}`, `${path.resolve(DESTROOT, val, item)}`, (err) => {
+        console.log(err);
+      })
+    });
+  })
+
+  // copyDirArr.forEach((item, index) => {
+  //   folders.forEach((val, key) => {
+  //     try {
+  //       shell.exec(`rm -rf ${path.resolve(DESTROOT, val, item)}`, {async: false});
+  //     } catch(err) {
+  //         console.log(err);
+  //     }
       
-      try {
-        shell.exec(`cp -r ${path.resolve(ROOT, item)} ${path.resolve(DESTROOT, val, item)}`, {slient: true}, (code) => {
-          if(code == 0) {
-            if(index == (copyDirArr.length - 1)) {
-              resolve();
-            }
-          } else {
-            reject(`复制文件夹失败`);
-          }
-        })
-      } catch(err) {
-          console.log(err);
-      }
+  //     try {
+  //       shell.exec(`cp -r ${path.resolve(ROOT, item)} ${path.resolve(DESTROOT, val, item)}`, {slient: true}, (code) => {
+  //         if(code == 0) {
+  //           if(index == (copyDirArr.length - 1)) {
+  //             resolve();
+  //           }
+  //         } else {
+  //           reject(`复制文件夹失败`);
+  //         }
+  //       })
+  //     } catch(err) {
+  //         console.log(err);
+  //     }
       
-    })
-  });
+  //   })
+  // });
 })
 
 const filePromise = new Promise((resolve, reject) => {
@@ -143,23 +156,18 @@ const filePromise = new Promise((resolve, reject) => {
 })
 
 
-spinner = ora(``).start();
 
-setTimeout(() => {
-  spinner.color = 'yellow';
-  spinner.text = `正在复制文件, 请稍后...`;
-}, 1000);
  
-Promise.all([dirPromise, filePromise]).then(function(data) {
-  spinner.stop();
+// Promise.all([dirPromise, filePromise]).then(function(data) {
+//   spinner.stop();
   console.log(`复制成功啦！`);
-  // folders.forEach((item, index) => {
-  //   shell.cd(path.resolve(__dirname, '../templates',item));
-  //   shell.exec('npm run build', {slient: true});
-  // })
-}).catch((err) => {
-  console.log(err);
-})
+  folders.forEach((item, index) => {
+    shell.cd(path.resolve(__dirname, '../templates',item));
+    shell.exec('npm run build', {slient: true});
+  })
+// }).catch((err) => {
+//   console.log(err);
+// })
   
 
 
