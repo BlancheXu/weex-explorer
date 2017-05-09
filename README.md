@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/BlancheXu/weex-explorer.svg?branch=master)](https://travis-ci.org/BlancheXu/weex-explorer)
 # weex-explorer
 
 > weex-explorer
